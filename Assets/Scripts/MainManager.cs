@@ -93,12 +93,18 @@ public class MainManager : MonoBehaviour
     {
         TMP_InputField scoreField = HighScoreField.GetComponent<TMP_InputField>();
         SaveData data = new SaveData();
-        if (data.playerScore < m_Points)
+
+        string path = Application.persistentDataPath + "/savefile.json";
+        string json = File.ReadAllText(path);
+        SaveData dataCheck = JsonUtility.FromJson<SaveData>(json);
+
+        Debug.Log("Player Score: " + dataCheck.playerScore);
+        if (dataCheck.playerScore < m_Points)
         {
             data.playerName = scoreField.text;
             data.playerScore = m_Points;
 
-            string json = JsonUtility.ToJson(data);
+            json = JsonUtility.ToJson(data);
 
             File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
         }
@@ -107,7 +113,6 @@ public class MainManager : MonoBehaviour
     public void LoadName()
     {
         string path = Application.persistentDataPath + "/savefile.json";
-
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
