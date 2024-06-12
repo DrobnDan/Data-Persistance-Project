@@ -19,6 +19,7 @@ public class MainManager : MonoBehaviour
     public GameObject PostGameUI;
     public GameObject HighScoreField;
     public TextMeshProUGUI HighScoreText;
+    private MenuUIHandler MenuUIHandler;
 
     private bool m_Started = false;
     private int m_Points;
@@ -27,7 +28,7 @@ public class MainManager : MonoBehaviour
     public string playerName;
     void Start()
     {
-        Debug.Log("HighScoreField: " + HighScoreField);
+        MenuUIHandler = GameObject.Find("MenuUIHandler").GetComponent<MenuUIHandler>();
         LoadName();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -72,8 +73,8 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
-    }
+        ScoreText.text = MenuUIHandler.playerName + "'s Score: " + m_Points;
+    } 
 
     public void GameOver()
     {
